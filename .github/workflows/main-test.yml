@@ -1,0 +1,56 @@
+name: React.js Build & Push on S3 Bucket
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    permissions:
+      id-token: write
+      contents: read
+      
+    runs-on: ubuntu-latest
+        
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+     
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build Website
+        run: npm run build
+
+      - name: Run tests
+        run: npm run test
+       
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-duration-seconds: 3600
+          aws-region: ${{ secrets.AWS_REGION }}
+
+        
+      - name: Copy files to the (S3 Bucket) with the AWS CLI
+        run: |
+          aws s3 sync ./build/ s3://${{ secrets.AWS_STAGING_BUCKET_NAME }}
+         
+      - name: Enable static website hosting
+        run: |
+          aws s3 website s3://${{ secrets.AWS_STAGING_BUCKET_NAME }} --index-document index.html
+         
+      - name: Update S3 Bucket Policy
+        run: |
+          aws s3api put-bucket-policy --bucket ${{ secrets.AWS_STAGING_BUCKET_NAME }} --policy '{
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+           "Sid": "PublicReadGetObject",
+           "Effect": "Allow",
+           "Principal": "*",
+           "Action": "s3:*",
+           "Resource": "arn:aws:s3:::${{ secrets.AWS_STAGING_BUCKET_NAME }}/*"
+            }
+          ]
+          }'
