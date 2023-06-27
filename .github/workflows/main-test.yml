@@ -43,3 +43,7 @@ jobs:
           username:  ${{ secrets.USER }}
           key:  ${{ secrets.KEY }}
           port:  ${{ secrets.PORT }}
+          script: |
+            cd build/
+            scp -r ./* ${{ secrets.USER }}@${{ secrets.HOST }}:./
+            ssh ${{ secrets.USER }}@${{ secrets.HOST }} "sudo service apache2 restart"
