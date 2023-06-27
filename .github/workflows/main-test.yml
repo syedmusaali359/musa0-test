@@ -54,7 +54,7 @@ jobs:
 
       - name: Copy files to EC2 instance
         run:  |
-         scp -r /build ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu/
+         scp -r /mnt/d/todolist-app-react/my-app/build ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu/
 
       - name: Restart Apache on EC2 instance
         run: |
