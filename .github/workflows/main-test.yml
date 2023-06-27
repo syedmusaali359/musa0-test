@@ -44,6 +44,6 @@ jobs:
           key:  ${{ secrets.KEY }}
           port:  ${{ secrets.PORT }}
           script: |
-            cd ./build
+            cd ./myapp/build
             scp -r ./build/* ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ec2-user/myapp
             ssh ${{ secrets.USER }}@${{ secrets.HOST }} "sudo service apache2 restart"
