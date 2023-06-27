@@ -42,6 +42,9 @@ jobs:
          echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
          chmod 600 ~/.ssh/id_rsa
          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Copy files to EC2 instance
         run:  |
