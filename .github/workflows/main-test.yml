@@ -51,7 +51,10 @@ jobs:
       - name: Copy files to EC2 instance
         run:  |
          scp -r * ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu/
-
-      - name: Restart Apache on EC2 instance
-        run: |
-         ssh ${{ secrets.USER }}@${{ secrets.HOST }} "sudo service apache2 restart"
+         
+      - name: deploying on ec2
+        run:  |
+         sudo apt update -y
+         sudo npm install
+         sudo npm install react-script
+         npm start
