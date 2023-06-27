@@ -42,10 +42,15 @@ jobs:
          echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
          chmod 600 ~/.ssh/id_rsa
          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+         
+      - name: Clone repository
+        run: |
+         git clone ${{ secrets.REPO }}
+         cd musa0-test
 
       - name: Copy files to EC2 instance
         run:  |
-         scp -r . ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu/
+         scp -r * ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu/
 
       - name: Restart Apache on EC2 instance
         run: |
