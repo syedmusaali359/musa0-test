@@ -45,8 +45,7 @@ jobs:
 
       - name: Copy files to EC2 instance
         run:  |
-         build_directory=$(find . -type d -name "build")
-         scp -r $build_directory/* ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu
+         scp -r build/* ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu/
 
       - name: Restart Apache on EC2 instance
         run: |
