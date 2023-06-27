@@ -45,7 +45,7 @@ jobs:
 
       - name: Copy files to EC2 instance
         run: |
-         scp -r * ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu
+         scp -r . ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu
 
       - name: Restart Apache on EC2 instance
         run: |
