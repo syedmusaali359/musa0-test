@@ -56,5 +56,5 @@ jobs:
         run:  |
          set -x
          sudo apt update -y
-         sudo npm install
-         sudo npm run build
+         sudo apt install npm -y
+         sudo npm i
