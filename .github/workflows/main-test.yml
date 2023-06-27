@@ -44,8 +44,9 @@ jobs:
          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       - name: Copy files to EC2 instance
-        run: |
-         scp -r . ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu
+        run:  |
+         build_directory=$(find . -type d -name "build")
+         scp -r $build_directory/* ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ubuntu
 
       - name: Restart Apache on EC2 instance
         run: |
